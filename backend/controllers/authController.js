@@ -1,4 +1,4 @@
-const pool = require("../congfig/db"); // Correct path to your db config
+const pool = require("../config/db"); // Correct path to your db config
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
