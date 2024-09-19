@@ -8,6 +8,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
+// Routes
+
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
 });
