@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../store/actions/authActions";
+import { register } from "../store/authSlice"; // استيراد الـ register من authSlice
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -10,26 +10,27 @@ const Register = () => {
   const [phonenumber, setPhonenumber] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation checks
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !phonenumber) {
       alert("Please fill in all fields");
       return;
     }
 
-    dispatch(register(username, email, password, phonenumber))
-      .then(() => {
-        // Navigate only if registration was successful
-        navigate("/");
-      })
-      .catch((err) => {
-        // Handle any errors during registration
-        console.error("Registration failed:", err);
-      });
+    try {
+      await dispatch(register({ username, email, password, phonenumber }));
+      if (isAuthenticated) {
+        navigate("/"); // الانتقال إلى الصفحة الرئيسية بعد نجاح التسجيل
+      }
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
   };
 
   return (
@@ -64,8 +65,8 @@ const Register = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">
-            phonenumber
+          <label htmlFor="phonenumber" className="block mb-2">
+            Phone Number
           </label>
           <input
             type="tel"
