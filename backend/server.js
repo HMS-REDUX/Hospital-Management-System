@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./congfig/db");
+const authRoutes = require("./routes/doctorAuthRoutes");
+
 require("dotenv").config();
 
 const app = express();
@@ -16,6 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authroutes);
+app.use("/api/doctorAuth", authRoutes);
 
 // Routes
 
