@@ -9,13 +9,19 @@ const pool = new Pool({
   port: process.env.PG_PORT,
 });
 
-pool.connect();
-
-pool.query("SELECT NOW()", (err, res) => {
+pool.connect((err) => {
   if (err) {
     console.error("Database connection error:", err);
   } else {
     console.log("Database connected successfully");
+  }
+});
+
+pool.query("SELECT NOW()", (err, res) => {
+  if (err) {
+    console.error("Error executing query:", err);
+  } else {
+    console.log("Query result:", res.rows);
   }
 });
 
