@@ -24,6 +24,28 @@ const AppointmentsController = {
     }
   },
 
+  // New method to set available time slots for a date
+  async setAvailableTimeSlots(req, res) {
+    const { doctor_id, date, timeSlots } = req.query;
+
+    try {
+      const newAppointments = await AppointmentsModel.setAvailableTimeSlots(
+        doctor_id,
+        date,
+        timeSlots
+      );
+      return res.status(201).json({
+        message: "Appointment slots set successfully",
+        appointments: newAppointments,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Error setting appointment slots",
+        error: err.message,
+      });
+    }
+  },
+
   // Get all appointments by doctor_id
   async getAllAppointmentsByDoctorId(req, res) {
     const { doctor_id } = req.params;
@@ -80,6 +102,23 @@ const AppointmentsController = {
       return res.status(500).json({
         message: "Error getting booked appoinments",
         error: error.message,
+      });
+    }
+  },
+
+  // Get available dates for a doctor
+  async getAvailableDates(req, res) {
+    const { doctor_id } = req.params;
+
+    try {
+      const availableDates = await AppointmentsModel.getAvailableDates(
+        doctor_id
+      );
+      return res.status(200).json({ availableDates });
+    } catch (err) {
+      return res.status(500).json({
+        message: "Error getting available dates",
+        error: err.message,
       });
     }
   },
