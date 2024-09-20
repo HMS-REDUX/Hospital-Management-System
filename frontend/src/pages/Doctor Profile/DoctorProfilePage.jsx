@@ -3,6 +3,7 @@ import TabSelector from "./TabSelector";
 import PatientRecords from "./PatientRecords";
 import AppointmentSettings from "./AppointmentSettings";
 import Profile from "./Profile";
+import DoctorAppointmentSetter from "./DoctorAppointmentSetter";
 
 const DoctorProfilePage = () => {
   const [activeTab, setActiveTab] = useState("patients");
@@ -19,6 +20,7 @@ const DoctorProfilePage = () => {
         {activeTab === "patients" && <PatientRecords />}
         {activeTab === "appointments" && <AppointmentSettings />}
         {activeTab === "profile" && <Profile />}
+        {activeTab === "setAppointment" && <DoctorAppointmentSetter />}
       </div>
     </div>
   );

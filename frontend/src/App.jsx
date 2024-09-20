@@ -4,6 +4,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/home";
 import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
+import DoctorAppointmentSetter from "./pages/Doctor Profile/DoctorAppointmentSetter";
 import DoctorLogin from "./pages/DoctorLogin";
 
 function App() {
@@ -11,9 +12,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/doctor-profile" element={<DoctorProfilePage />} />
-      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/calendar" element={<DoctorAppointmentSetter />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
     </Routes>
   );
