@@ -1,4 +1,4 @@
-const pool = require("../congfig/db");
+const pool = require("../config/db");
 const bcrypt = require("bcrypt");
 
 exports.getDoctorProfile = async (req, res) => {

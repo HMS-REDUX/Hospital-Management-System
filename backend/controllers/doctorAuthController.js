@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const pool = require("../congfig/db");
+const pool = require("../config/db");
 require("dotenv").config();
 
 const login = async (req, res) => {
