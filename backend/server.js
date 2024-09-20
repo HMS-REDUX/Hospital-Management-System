@@ -1,22 +1,39 @@
 const express = require("express");
 const cors = require("cors");
-const pool = require("./congfig/db");
+const pool = require("./config/db");
+const doctorAuthRoutes = require("./routes/doctorAuthRoutes");
+const authroutes = require("./routes/authRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
+const cookieParser = require("cookie-parser");
+const appointmentsRoutes = require("./routes/appointmentsRoutes");
+
 require("dotenv").config();
-const doctorRoutes = require("./routes/doctorscatalogRoutes");
+const doctorcatalogRoutes = require("./routes/doctorscatalogRoutes");
 const app = express();
 const PORT = process.env.PORT;
-const authroutes = require("./routes/authRoutes");
+
+// End points routes
 
 // CORS configuration
 const corsOptions = {
-  origin: "http://localhost:5173", // Replace with the URL of your frontend
-  credentials: true, // Allow cookies and other credentials
+  origin: "http://localhost:5173",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
+
+// Use routes
 app.use("/api/auth", authroutes);
-app.use("/api", doctorRoutes);
+
+app.use("/api", doctorcatalogRoutes);
+
+app.use("/api/appointments", appointmentsRoutes);
+app.use("/api/auth", authroutes);
+app.use("/api/doctorAuth", doctorAuthRoutes);
+app.use("/api/doctors", doctorRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

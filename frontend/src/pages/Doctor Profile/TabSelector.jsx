@@ -33,6 +33,16 @@ const TabSelector = ({ activeTab, setActiveTab }) => {
       >
         Patient Records
       </button>
+      <button
+        className={`px-4 py-2 rounded-t-lg ${
+          activeTab === "setAppointment"
+            ? "bg-white text-blue-600"
+            : "bg-gray-200 text-gray-600"
+        }`}
+        onClick={() => setActiveTab("setAppointment")}
+      >
+        Set Appointment
+      </button>
     </div>
   );
 };

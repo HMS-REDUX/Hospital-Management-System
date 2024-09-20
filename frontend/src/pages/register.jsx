@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../store/authSlice"; // استيراد الـ register من authSlice
+import { register } from "../store/slices/authSlice"; // استيراد الـ register من authSlice
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
