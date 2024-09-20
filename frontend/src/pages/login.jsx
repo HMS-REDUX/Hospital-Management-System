@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../store/authSlice"; // استدعاء الـ login من الـ authSlice الجديد
+import { login } from "../store/slices/authSlice"; // استدعاء الـ login من الـ authSlice الجديد
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
