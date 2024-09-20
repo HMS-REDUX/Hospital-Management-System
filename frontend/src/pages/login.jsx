@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../store/actions/authActions";
+import { login } from "../store/slices/authSlice"; // استدعاء الـ login من الـ authSlice الجديد
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -8,7 +8,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,8 +22,10 @@ const Login = () => {
     }
 
     try {
-      await dispatch(login(email, password));
-      navigate("/"); // Navigate only if login was successful
+      await dispatch(login({ email, password })); // تمرير البيانات كـ object
+      if (isAuthenticated) {
+        navigate("/"); // Navigate only if login was successful
+      }
     } catch (err) {
       // Handle any errors during login
       console.error("Login failed:", err);

@@ -1,13 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./congfig/db");
-const authRoutes = require("./routes/doctorAuthRoutes");
+const doctorAuthRoutes = require("./routes/doctorAuthRoutes");
+const authroutes = require("./routes/authRoutes");
+const doctorRoutes = require("./routes/doctorRoutes");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT;
-const authroutes = require("./routes/authRoutes");
 
 // CORS configuration
 const corsOptions = {
@@ -17,8 +19,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
+
 app.use("/api/auth", authroutes);
-app.use("/api/doctorAuth", authRoutes);
+app.use("/api/doctorAuth", doctorAuthRoutes);
+app.use("/api/doctors", doctorRoutes);
 
 // Routes
 
