@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const pool = require("./congfig/db");
 require("dotenv").config();
-
+const doctorRoutes = require("./routes/doctorscatalogRoutes");
 const app = express();
 const PORT = process.env.PORT;
 const authroutes = require("./routes/authRoutes");
@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth", authroutes);
-
+app.use("/api", doctorRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

@@ -8,15 +8,14 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // دائمًا تعيين الدور إلى 'patient'
-    const role = "patient";
 
     const query = `
-      INSERT INTO users (name, email, password, role, phone)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING user_id, name, email, role, phone, created_at
+      INSERT INTO users (name, email, password, phone)
+      VALUES ($1, $2, $3, $4)
+      RETURNING user_id, name, email, phone, created_at
     `;
 
-    const values = [username, email, hashedPassword, role, phonenumber];
+    const values = [username, email, hashedPassword, phonenumber];
 
     const result = await pool.query(query, values);
 
