@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// Import your pages/components
-import Home from './pages/home';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Home from "./pages/home";
+import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/doctor-profile" element={<DoctorProfilePage />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
 }
 
