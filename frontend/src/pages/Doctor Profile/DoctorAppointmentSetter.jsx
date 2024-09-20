@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format, addDays } from "date-fns";
-import { setTimeSlots } from "../../store/timeSlotsSlice";
+import { setTimeSlots } from "../../store/slices/timeSlotsSlice";
 
 const DoctorAppointmentSetter = () => {
   const dispatch = useDispatch();
