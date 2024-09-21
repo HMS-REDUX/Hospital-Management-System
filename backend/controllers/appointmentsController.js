@@ -26,7 +26,7 @@ const AppointmentsController = {
 
   // New method to set available time slots for a date
   async setAvailableTimeSlots(req, res) {
-    const { doctor_id, date, timeSlots } = req.query;
+    const { doctor_id, date, timeSlots } = req.body;
 
     try {
       const newAppointments = await AppointmentsModel.setAvailableTimeSlots(
