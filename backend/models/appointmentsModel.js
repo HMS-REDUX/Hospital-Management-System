@@ -19,30 +19,90 @@ const AppointmentsModel = {
   },
 
   // Mthod to set multiple available time slots for a date
+  // async setAvailableTimeSlots(doctor_id, date, timeSlots) {
+  //   const client = await pool.connect();
+
+  //   try {
+  //     await client.query("BEGIN");
+
+  //     const insertedSlots = [];
+
+  //     for (const time of timeSlots) {
+  //       // Check if the slot already exists
+  //       const checkQuery = `
+  //       SELECT * FROM Appointments
+  //       WHERE doctor_id = $1 AND appointment_date = $2 AND appointment_time = $3;
+  //     `;
+  //       const checkResult = await client.query(checkQuery, [
+  //         doctor_id,
+  //         date,
+  //         time,
+  //       ]);
+
+  //       // If the slot doesn't exist, insert it
+  //       if (checkResult.rows.length === 0) {
+  //         const insertQuery = `
+  //         INSERT INTO Appointments (doctor_id, appointment_date, appointment_time)
+  //         VALUES ($1, $2, $3)
+  //         RETURNING *;
+  //       `;
+  //         const insertResult = await client.query(insertQuery, [
+  //           doctor_id,
+  //           date,
+  //           time,
+  //         ]);
+  //         insertedSlots.push(insertResult.rows[0]);
+  //       }
+  //     }
+
+  //     await client.query("COMMIT");
+  //     return insertedSlots;
+  //   } catch (error) {
+  //     await client.query("ROLLBACK");
+  //     console.error("Error in setAvailableTimeSlots:", error);
+  //     throw error;
+  //   } finally {
+  //     client.release();
+  //   }
+  // },
   async setAvailableTimeSlots(doctor_id, date, timeSlots) {
-    const paramValues = timeSlots.flatMap((time, index) => [
-      doctor_id,
-      date,
-      time,
-    ]);
-    const placeholders = timeSlots
-      .map(
-        (_, index) =>
-          `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`
-      )
-      .join(", ");
-    const query = `
-    INSERT INTO Appointments (doctor_id, appointment_date, appointment_time)
-    VALUES ${placeholders}
-    RETURNING *;
-  `;
+    const client = await pool.connect();
 
     try {
-      const result = await this.pool.query(query, paramValues);
-      return result.rows;
+      await client.query("BEGIN");
+
+      // Delete existing time slots for the doctor and date
+      const deleteQuery = `
+      DELETE FROM Appointments
+      WHERE doctor_id = $1 AND appointment_date = $2 AND patient_id IS NULL;
+    `;
+      await client.query(deleteQuery, [doctor_id, date]);
+
+      const insertedSlots = [];
+
+      // Insert the new time slots
+      for (const time of timeSlots) {
+        const insertQuery = `
+        INSERT INTO Appointments (doctor_id, appointment_date, appointment_time)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+      `;
+        const insertResult = await client.query(insertQuery, [
+          doctor_id,
+          date,
+          time,
+        ]);
+        insertedSlots.push(insertResult.rows[0]);
+      }
+
+      await client.query("COMMIT");
+      return insertedSlots;
     } catch (error) {
+      await client.query("ROLLBACK");
       console.error("Error in setAvailableTimeSlots:", error);
       throw error;
+    } finally {
+      client.release();
     }
   },
 

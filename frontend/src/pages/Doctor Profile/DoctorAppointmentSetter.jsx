@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format, addDays } from "date-fns";
 import { setTimeSlots } from "../../store/slices/timeSlotsSlice";
+import axios from "axios";
 
 const DoctorAppointmentSetter = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const DoctorAppointmentSetter = () => {
 
   const dateKey = format(selectedDate, "yyyy-MM-dd");
   const dateTimeSlots = useSelector((state) => state.timeSlots.dateTimeSlots);
-  // const selectedTimeSlots = dateTimeSlots[dateKey] || [];
 
   const timeSlots = [
     "9:00",
@@ -50,30 +50,49 @@ const DoctorAppointmentSetter = () => {
     );
   };
 
-  const handleSubmit = () => {
-    if (tempSelectedTimeSlots.length === 0) {
-      alert("Please select at least one time slot before submitting.");
-      return;
+  const handleSubmit = async () => {
+    try {
+      await postAppointmentSlots(dateKey, tempSelectedTimeSlots);
+
+      dispatch(setTimeSlots({ date: dateKey, slots: tempSelectedTimeSlots }));
+
+      const updatedDateTimeSlots = {
+        ...dateTimeSlots,
+        [dateKey]: tempSelectedTimeSlots,
+      };
+
+      sessionStorage.setItem(
+        "dateTimeSlots",
+        JSON.stringify(updatedDateTimeSlots)
+      );
+
+      alert(
+        `Selected date: ${dateKey}\nSelected time slots: ${tempSelectedTimeSlots.join(
+          ", "
+        )}\nAppointment slots successfully set.`
+      );
+      setIsSubmitted(true);
+    } catch (error) {
+      alert(`Error setting appointment slots: ${error.message}`);
     }
+  };
 
-    dispatch(setTimeSlots({ date: dateKey, slots: tempSelectedTimeSlots }));
-
-    const updatedDateTimeSlots = {
-      ...dateTimeSlots,
-      [dateKey]: tempSelectedTimeSlots,
-    };
-
-    sessionStorage.setItem(
-      "dateTimeSlots",
-      JSON.stringify(updatedDateTimeSlots)
-    );
-
-    alert(
-      `Selected date: ${dateKey}\nSelected time slots: ${tempSelectedTimeSlots.join(
-        ", "
-      )}`
-    );
-    setIsSubmitted(true);
+  const postAppointmentSlots = async (date, slots) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/appointments/set-slots",
+        {
+          doctor_id: 6,
+          date: date,
+          timeSlots: slots,
+        }
+      );
+      console.log("API Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error posting appointment slots:", error);
+      throw error;
+    }
   };
 
   useEffect(() => {
@@ -96,7 +115,7 @@ const DoctorAppointmentSetter = () => {
           <Calendar
             onChange={handleDateChange}
             value={selectedDate}
-            minDate={new Date()}
+            minDate={addDays(new Date(), 1)}
             maxDate={addDays(new Date(), 21)}
             className="w-full"
           />
