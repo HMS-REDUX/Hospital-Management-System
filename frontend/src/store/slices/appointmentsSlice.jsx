@@ -1,29 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchBookedAppointments } from "../thunks/appointmentThunks";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const fetchAppointments = createAsyncThunk(
+  "appointments/fetchAppointments",
+  async () => {
+    const response = await axios.get(
+      "http://localhost:5000/api/appointments/admin"
+    );
+    return response.data;
+  }
+);
 
 const appointmentsSlice = createSlice({
   name: "appointments",
   initialState: {
-    bookedAppointments: [],
-    status: "idle",
+    appointments: [],
+    loading: true,
     error: null,
+    searchTerm: "",
+    currentPage: 1,
+    appointmentsPerPage: 5,
   },
-  reducers: {},
+  reducers: {
+    setSearchTerm(state, action) {
+      state.searchTerm = action.payload;
+    },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchBookedAppointments.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchBookedAppointments.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.bookedAppointments = action.payload;
+      .addCase(fetchAppointments.pending, (state) => {
+        state.loading = true;
         state.error = null;
       })
-      .addCase(fetchBookedAppointments.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
+      .addCase(fetchAppointments.fulfilled, (state, action) => {
+        state.appointments = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchAppointments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = "Failed to load appointments";
       });
   },
 });
+
+export const { setSearchTerm, setCurrentPage } = appointmentsSlice.actions;
 
 export default appointmentsSlice.reducer;
