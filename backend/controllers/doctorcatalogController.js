@@ -1,4 +1,4 @@
-const pool = require("../congfig/db");
+const pool = require("../config/db");
 
 exports.getAllDoctors = async (req, res) => {
   try {

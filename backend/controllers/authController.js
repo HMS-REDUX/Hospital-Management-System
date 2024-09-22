@@ -58,11 +58,11 @@ exports.login = async (req, res) => {
     );
 
     res.cookie("token", token, {
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 3600000, // ساعة واحدة
     });
 
+    console.log("User ID:", user.user_id);
     res.json({
       user: { id: user.user_id, name: user.name, role: user.role },
     });

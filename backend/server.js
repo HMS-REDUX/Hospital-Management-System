@@ -7,6 +7,9 @@ const doctorRoutes = require("./routes/doctorRoutes");
 const cookieParser = require("cookie-parser");
 const appointmentsRoutes = require("./routes/appointmentsRoutes");
 
+const appointmentpatientRoutes = require("./routes/appointmentpatientRoutes");
+const feedbackRoutes = require("./routes/feedbackRoutes");
+
 require("dotenv").config();
 const doctorcatalogRoutes = require("./routes/doctorscatalogRoutes");
 const app = express();
@@ -33,7 +36,8 @@ app.use("/api/appointments", appointmentsRoutes);
 app.use("/api/auth", authroutes);
 app.use("/api/doctorAuth", doctorAuthRoutes);
 app.use("/api/doctors", doctorRoutes);
-
+app.use("/api/app", appointmentpatientRoutes);
+app.use("/api/feedback", feedbackRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
