@@ -4,6 +4,7 @@ import authReducer from "./slices/authSlice";
 import doctorAuthSlice from "./slices/doctorAuthSlice";
 import doctorSlice from "./slices/doctorSlice";
 import appointmentsReducer from "./slices/appointmentsSlice";
+import doctorAppointment from "./slices/appointmentsDoctorSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     doctorAuth: doctorAuthSlice,
     doctor: doctorSlice,
     appointments: appointmentsReducer,
+    appointmentsDoctor: doctorAppointment,
   },
 });
 

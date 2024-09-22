@@ -81,11 +81,11 @@ const DoctorAppointmentSetter = () => {
   }, [dispatch, dateKey]);
 
   return (
-    <div className="justify-center p-20">
+    <div className="justify-center px-3 lg:px-80 py-10 ">
       <h1 className="text-2xl font-bold mb-4">Set Available Appointments</h1>
       {status === "loading" && <p>Loading...</p>}
       {status === "failed" && <p>Error: {error}</p>}
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-12">
         <div className="w-full">
           <Calendar
             onChange={handleDateChange}
@@ -117,7 +117,7 @@ const DoctorAppointmentSetter = () => {
           </div>
           <button
             onClick={handleSubmit}
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-[#307BC4] text-white px-4 py-2 rounded flex w-full justify-center"
           >
             Set Available Times
           </button>

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchBookedAppointments } from "../thunks/appointmentThunks";
 
 const appointmentsSlice = createSlice({
-  name: "appointments-doctor",
+  name: "appointmentsDoctor",
   initialState: {
     bookedAppointments: [],
     status: "idle",

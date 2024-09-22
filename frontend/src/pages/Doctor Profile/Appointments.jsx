@@ -6,7 +6,7 @@ import { format, isPast } from "date-fns";
 const AppointmentsPage = () => {
   const dispatch = useDispatch();
   const { bookedAppointments, status, error } = useSelector(
-    (state) => state.appointments
+    (state) => state.appointmentsDoctor
   );
   const [activeTab, setActiveTab] = useState("upcoming");
 
