@@ -3,8 +3,7 @@ import timeSlotsReducer from "./slices/timeSlotsSlice";
 import authReducer from "./slices/authSlice";
 import doctorAuthSlice from "./slices/doctorAuthSlice";
 import doctorSlice from "./slices/doctorSlice";
-import appointmentsReducer from './slices/appointmentsSlice'; // Adjust the path as needed
-
+import appointmentsReducer from "./slices/appointmentsSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +12,6 @@ const store = configureStore({
     doctorAuth: doctorAuthSlice,
     doctor: doctorSlice,
     appointments: appointmentsReducer,
-
   },
 });
 
