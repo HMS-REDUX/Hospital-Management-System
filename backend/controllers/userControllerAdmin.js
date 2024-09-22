@@ -1,11 +1,11 @@
-const pool = require('../congfig/db');
+const pool = require('../config/db');
 const nodemailer = require('nodemailer');
 
 // Nodemailer configuration
 const transporter = nodemailer.createTransport({
   service: 'outlook', // or your preferred email service
   auth: {
-    user: 'hospital022@outlook.com', // replace with your email
+    user: 'hospital0222@outlook.com', // replace with your email
     pass: 'A12345trewq', // replace with your email password or app password
   },
 });
@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 // Function to send emails
 const sendEmail = (to, subject, text) => {
   const mailOptions = {
-    from: 'hospital022@outlook.com', // replace with your email
+    from: 'hospital0222@outlook.com', // replace with your email
     to,
     subject,
     text,
@@ -36,6 +36,7 @@ const getUsers = async (req, res) => {
 // Controller to toggle user's isActive status and send email
 const toggleUserStatus = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   const { isActive } = req.body;
 
   try {

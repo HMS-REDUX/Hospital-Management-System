@@ -27,6 +27,7 @@ const PatientRecords = () => {
   // Function to toggle user status (Active/Inactive)
   const toggleStatus = async (id, currentStatus) => {
     try {
+      console.log(id)
       const response = await axios.put(`http://localhost:5000/api/users/admin/${id}/status`, {
         isActive: !currentStatus,
       });

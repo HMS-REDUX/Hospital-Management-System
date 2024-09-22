@@ -1,4 +1,4 @@
-const pool = require("../congfig/db");
+const pool = require("../config/db");
 const nodemailer = require("nodemailer");
 
 // Controller to get all contacts from the table
@@ -21,14 +21,14 @@ const sendMessage = async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "outlook", // or another service like 'SendGrid', 'Mailgun', etc.
     auth: {
-      user: 'hospital022@outlook.com', // Use your email address
+      user: 'hospital0222@outlook.com', // Use your email address
       pass: 'A12345trewq', // Use your email password
     },
   });
 
   // Email options
   const mailOptions = {
-    from: 'hospital022@outlook.com',
+    from: 'hospital0222@outlook.com',
     to: email,
     subject: "Response from Admin",
     text: messageContent,

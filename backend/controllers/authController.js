@@ -1,10 +1,10 @@
-const pool = require("../congfig/db"); // Correct path to your db config
+const pool = require("../config/db"); // Correct path to your db config
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, phone } = req.body; // استخدام 'phone'
+    const { username, email, password, phonenumber } = req.body; // استخدام 'phone'
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // دائمًا تعيين الدور إلى 'patient'
@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
       RETURNING user_id, name, email, role, phone, created_at
     `;
 
-    const values = [username, email, hashedPassword, role, phone];
+    const values = [username, email, hashedPassword, role, phonenumber];
 
     const result = await pool.query(query, values);
 
