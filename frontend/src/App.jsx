@@ -6,7 +6,8 @@ import Home from "./pages/home";
 import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
 import DoctorAppointmentSetter from "./pages/Doctor Profile/DoctorAppointmentSetter";
 import DoctorLogin from "./pages/DoctorLogin";
-
+import UserProfile from "./pages/User Profile/userProfile";
+import ContactUs from "./pages/ContactUs";
 ///////////////////////Admin///////////////////////////////////
 import HomePage from "./pages/AdminDashboard/HomePage";
 import PatientRecords from './pages/AdminDashboard/PatientRecords';
@@ -47,6 +48,8 @@ function App() {
 
       <Route path="/calendar" element={<DoctorAppointmentSetter />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
+      <Route path="/userprofile" element={<UserProfile/>} />
+      <Route path="/contact" element={<ContactUs />} />
     </Routes>
   );
 }

@@ -12,7 +12,8 @@ const doctorRoutesAdmin = require("./routes/doctorRoutesAdmin"); // Import the n
 // const appointmentRoutesAdmin = require("./routes/appointmentRoutesAdmin"); // Import appointment routes
 const contactRoutesAdmin = require("./routes/contactRoutesAdmin"); // Add this line
 /////////////////////////////////////////////////////////////////////////////////////
-
+const userProfileRoutes = require("./routes/userProfileRoutes");
+const contactRoutes = require("./routes/contactRoutes");
 
 require("dotenv").config();
 
@@ -35,6 +36,8 @@ app.use("/api/appointments", appointmentsRoutes);
 app.use("/api/auth", authroutes);
 app.use("/api/doctorAuth", doctorAuthRoutes);
 app.use("/api/doctors", doctorRoutes);
+app.use("/api/user", userProfileRoutes);
+app.use('/api/contacts', contactRoutes);
 
 
 
