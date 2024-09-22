@@ -7,6 +7,15 @@ import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
 import DoctorAppointmentSetter from "./pages/Doctor Profile/DoctorAppointmentSetter";
 import DoctorLogin from "./pages/DoctorLogin";
 
+///////////////////////Admin///////////////////////////////////
+import HomePage from "./pages/AdminDashboard/HomePage";
+import PatientRecords from './pages/AdminDashboard/PatientRecords';
+import Doctors from "./pages/AdminDashboard/Doctors";
+import Stats from './pages/AdminDashboard/Stats';
+// import Appointments from "./pages/AdminDashboard/Appointments";
+import Messages from "./pages/AdminDashboard/Messages";
+///////////////////////////////////////////////////////////////
+
 function App() {
   return (
     <Routes>
@@ -15,6 +24,27 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+
+
+
+                       {/* Admin Dashbord */}
+
+      <Route path="/admin" element={<HomePage />}>
+          <Route index element={<Stats />} />
+          <Route path="patient-records" element={<PatientRecords />} />
+          <Route path="doctors" element={<Doctors />} />
+          {/* <Route path="appointments" element={<Appointments />} /> */}
+          <Route path="messages" element={<Messages/>} />
+      </Route>
+
+                      {/* Admin Dashbord */}
+
+
+
+
+
+
       <Route path="/calendar" element={<DoctorAppointmentSetter />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
     </Routes>
