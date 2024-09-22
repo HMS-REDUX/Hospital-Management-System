@@ -15,7 +15,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/doctors");
+        const response = await axios.get("http://localhost:5000/api/catalog/doctors");
         setDoctors(response.data);
       } catch (error) {
         console.error("Error fetching doctors:", error);

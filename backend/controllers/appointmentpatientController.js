@@ -38,6 +38,7 @@ exports.bookAppointment = async (req, res) => {
 
     res.status(200).json(result.rows[0]);
   } catch (error) {
+
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
@@ -64,4 +65,4 @@ exports.createAvailableAppointments = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-console.log("JWT Secret:", process.env.JWT_SECRET);
+

@@ -10,7 +10,7 @@ exports.getDoctorFeedback = async (req, res) => {
          WHERE Feedback.doctor_id = $1`,
       [doctorId]
     );
-    console.log(result.rows);
+
     res.json(result.rows);
   } catch (error) {
     console.error(error);
@@ -20,12 +20,11 @@ exports.getDoctorFeedback = async (req, res) => {
 exports.avgstars = async (req, res) => {
   try {
     const { doctorId } = req.params;
-    console.log("Doctor ID:", doctorId); // Log doctorId to ensure it's being received
+
     const result = await db.query(
       `SELECT Feedback.rating FROM Feedback WHERE Feedback.doctor_id = $1`,
       [doctorId]
     );
-    console.log("Query result:", result); // Log the result of the query
 
     const ratings = result.rows.map((row) => row.rating);
     if (ratings.length === 0) {
@@ -36,8 +35,6 @@ exports.avgstars = async (req, res) => {
 
     const totalRating = ratings.reduce((sum, rating) => sum + rating, 0);
     const averageRating = totalRating / ratings.length;
-
-    console.log("Average rating:", averageRating); // Log the calculated average rating
 
     res.json({ averageRating });
   } catch (error) {

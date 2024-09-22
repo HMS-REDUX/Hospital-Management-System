@@ -14,7 +14,7 @@ exports.getDoctorProfile = async (req, res) => {
 
 exports.updateDoctorProfile = async (req, res) => {
   const doctorId = req.user;
-  console.log(doctorId);
+
   const { email, password } = req.body;
   try {
     let query, values;
@@ -41,7 +41,8 @@ exports.updateDoctorProfile = async (req, res) => {
 exports.getDoctorById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await db.query(
+
+    const result = await pool.query(
       "SELECT * FROM Doctors WHERE doctor_id = $1",
       [id]
     );

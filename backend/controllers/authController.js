@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
       maxAge: 3600000, // ساعة واحدة
     });
 
-    console.log("User ID:", user.user_id);
+    
     res.json({
       user: { id: user.user_id, name: user.name, role: user.role },
     });
