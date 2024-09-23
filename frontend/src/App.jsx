@@ -7,7 +7,7 @@ import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
 import Catalog from "./pages/catalog";
 import DoctorAppointmentSetter from "./pages/Doctor Profile/DoctorAppointmentSetter";
 import DoctorLogin from "./pages/DoctorLogin";
-
+import PayPalPayment from "./pages/payment";
 import DoctorAppointment from "./pages/details";
 
 import UserProfile from "./pages/User Profile/userProfile";
@@ -41,6 +41,7 @@ function App() {
         <Route path="messages" element={<Messages />} />
       </Route>
 
+      <Route path="/payPalPayment" element={<PayPalPayment />} />
       <Route path="/calendar" element={<DoctorAppointmentSetter />} />
       <Route path="/doctorLogin" element={<DoctorLogin />} />
       <Route path="/userprofile" element={<UserProfile />} />

@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Calendar } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Star } from "lucide-react";
+import { Star, DollarSign, Briefcase, Phone, FileText } from "lucide-react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { jsPDF } from "jspdf";
 
 const DoctorAppointment = () => {
   const [doctor, setDoctor] = useState(null);
@@ -18,6 +21,7 @@ const DoctorAppointment = () => {
   const [notes, setNotes] = useState([]);
   const [stars, setStars] = useState([]);
 
+  const [billingId, setBillingId] = useState(null);
   useEffect(() => {
     const doctorId = sessionStorage.getItem("selectedDoctorId");
     if (doctorId) {
@@ -91,45 +95,132 @@ const DoctorAppointment = () => {
     setSelectedSlot(slot);
   };
 
+  const generatePDF = (appointmentDetails) => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Doctor Appointment Receipt", 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Doctor: ${doctor.name}`, 10, 30);
+    doc.text(`Patient: ${appointmentDetails.patientName}`, 10, 40);
+    doc.text(
+      `Date: ${new Date(selectedSlot.appointment_date).toLocaleDateString()}`,
+      10,
+      50
+    );
+    doc.text(`Time: ${selectedSlot.appointment_time}`, 10, 60);
+    doc.text(`Price: $${doctor.price}`, 10, 70);
+    doc.text(`Order ID: ${appointmentDetails.orderId}`, 10, 80);
+    doc.text(`Notes: ${appointmentDetails.notes}`, 10, 90);
+    return doc;
+  };
   const handleBookAppointment = async () => {
     if (!selectedSlot) {
-      alert("Please select an appointment slot.");
+      Swal.fire("خطأ", "الرجاء اختيار موعد.", "error");
       return;
     }
-
-    const token = Cookies.get("token");
-    if (!token) {
-      alert("User ID is missing in cookies. Please log in.");
-      return;
-    }
-
+    const appointmentPrice = doctor.price;
+    const orderId = Math.random().toString(36).substr(2, 9);
     try {
-      const decodedToken = jwtDecode(token);
-      const patientId = decodedToken.userId;
+      Swal.fire({
+        title: "حجز موعد",
+        inputLabel:
+          "What is your condition and what symptoms are you experiencing?",
+        html: `
+          <textarea id="notes" class="swal2-textarea" placeholder="ما هي حالتك وما هي الأعراض التي تشعر بها؟"></textarea>
+          <div id="paypal-button-container"></div>
+        `,
+        showCancelButton: true,
+        showConfirmButton: false,
+        didOpen: () => {
+          const paypalButtonsContainer = Swal.getPopup().querySelector(
+            "#paypal-button-container"
+          );
+          const paypalScript = document.createElement("script");
+          paypalScript.src =
+            "https://www.paypal.com/sdk/js?client-id=AWrR0dEDBlc9AVYB7E-RbYM8HyZMGiRs_ibLN1lcJXBnv8DhZc1BuvhagRX5ycmsDSNQ3B5TxKya81_v";
+          paypalScript.async = true;
+          paypalScript.onload = () => {
+            window.paypal
+              .Buttons({
+                createOrder: (data, actions) => {
+                  return actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: {
+                          value: appointmentPrice.toString(),
+                        },
+                      },
+                    ],
+                  });
+                },
+                onApprove: async (data, actions) => {
+                  const details = await actions.order.capture();
+                  const notes = document.getElementById("notes").value;
 
-      const appointmentData = {
-        appointment_id: selectedSlot.appointment_id,
-        patient_id: patientId,
-        notes: notes,
-      };
+                  try {
+                    const token = Cookies.get("token");
+                    if (!token) {
+                      alert("User ID is missing in cookies. Please log in.");
+                      return;
+                    }
+                    const decodedToken = jwtDecode(token);
+                    const patientId = decodedToken.userId;
+                    const response = await axios.post(
+                      "http://localhost:5000/api/app/book",
+                      {
+                        appointment_id: selectedSlot.appointment_id,
+                        notes: notes,
+                        amount: appointmentPrice,
+                        payment_details: details,
+                        patient_id: patientId,
+                      },
+                      { withCredentials: true }
+                    );
+                    const appointmentDetails = {
+                      patientName: patientId, // Assuming the token contains the patient's name
+                      orderId: orderId, // Assuming the API returns an order ID
+                      notes: notes,
+                    };
+                    const doc = generatePDF(appointmentDetails);
 
-      await axios.post("http://localhost:5000/api/app/book", appointmentData, {
-        withCredentials: true,
+                    const pdfResult = await Swal.fire({
+                      title: "Appointment Booked Successfully!",
+                      text: "Would you like to download the receipt as PDF?",
+                      icon: "success",
+                      showCancelButton: true,
+                      confirmButtonText: "Download PDF",
+                      cancelButtonText: "No, thanks",
+                    });
 
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+                    if (pdfResult.isConfirmed) {
+                      doc.save("appointment_receipt.pdf");
+                    }
+
+                    fetchAvailableAppointments(doctor.doctor_id);
+                  } catch (error) {
+                    console.error("خطأ في حجز الموعد:", error);
+                    Swal.fire(
+                      "خطأ",
+                      "فشل في حجز الموعد. الرجاء المحاولة مرة أخرى.",
+                      "error"
+                    );
+                  }
+                },
+              })
+              .render(paypalButtonsContainer);
+          };
+          document.body.appendChild(paypalScript);
         },
       });
-
-      alert("Appointment booked successfully!");
-      fetchAvailableAppointments(doctor.doctor_id);
     } catch (error) {
-      console.error("Error booking appointment:", error);
-      alert("Failed to book appointment. Please try again.");
+      console.error("خطأ في تحضير حجز الموعد:", error);
+      Swal.fire(
+        "خطأ",
+        "فشل في تحضير حجز الموعد. الرجاء المحاولة مرة أخرى.",
+        "error"
+      );
     }
   };
-
   const handleSubmitFeedback = async () => {
     try {
       const token = Cookies.get("token");
@@ -175,15 +266,23 @@ const DoctorAppointment = () => {
         <h1 className="text-4xl font-bold mb-6 text-blue-900 text-center">
           {doctor.name}
         </h1>
-        <p className="mb-8 text-blue-700 text-center text-lg">
+        <img
+          src={doctor.img}
+          alt={doctor.name}
+          className="w-32 h-32 rounded-full mx-auto mb-4"
+        />
+        <p className="mb-8 text-blue-700 text-center text-xl">
           {doctor.description}
         </p>
-        <div className="flex items-center mb-2">
+        <p className="flex items-center text-3xl text-blue-500">
+          price : ${doctor.price}
+        </p>
+        <div className="flex items-center  justify-end mb-2">
           {/* قم بإنشاء مصفوفة من 1 إلى 5 لتمثيل النجوم */}
           {[1, 2, 3, 4, 5].map((star) => (
             <Star
               key={star}
-              size={20}
+              size={40}
               className={`${
                 star <= stars.averageRating
                   ? "text-yellow-400 fill-current"
@@ -221,21 +320,12 @@ const DoctorAppointment = () => {
               ))}
             </div>
             {selectedSlot && (
-              <>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full p-3 border rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="What condition are you facing and what symptoms are you feeling?"
-                  rows="4"
-                />
-                <button
-                  onClick={handleBookAppointment}
-                  className="w-full bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors duration-200 text-lg font-semibold"
-                >
-                  Book Appointment
-                </button>
-              </>
+              <button
+                onClick={handleBookAppointment}
+                className="w-full bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors duration-200 text-lg font-semibold"
+              >
+                Book Appointment
+              </button>
             )}
           </div>
 
