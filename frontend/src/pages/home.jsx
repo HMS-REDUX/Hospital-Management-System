@@ -3,8 +3,10 @@ import { FaPlay, FaUserMd, FaHospital, FaAmbulance } from "react-icons/fa";
 import HeroImage from "../assets/HeroImage.png";
 import about from "../assets/about.png";
 import cta from "../assets/cta.png";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const auth = useSelector((state) => state.auth);
   const [scrolled, setScrolled] = useState(false);
   const [currentReview, setCurrentReview] = useState(0);
   const [openFAQ, setOpenFAQ] = useState(null);
@@ -132,16 +134,57 @@ const Home = () => {
             <span className="font-bold text-2xl text-blue-900">TheraWell</span>
           </div>
           <ul className="hidden md:flex space-x-12">
-            {["Home", "About", "Find Doctor", "Blog", "Contact"].map((item) => (
-              <li key={item}>
+            <li>
+              <a
+                href="/"
+                className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="/aboutus"
+                className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="/catalog"
+                className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Find Doctor
+              </a>
+            </li>
+            <li>
+              <a
+                href="/contact"
+                className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
+              >
+                Contact
+              </a>
+            </li>
+            {!auth.isAuthenticated ? (
+              <li>
                 <a
-                  href="#"
+                  href="/loginComponent"
                   className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
                 >
-                  {item}
+                  SignIn
                 </a>
               </li>
-            ))}
+            ) : (
+              <li>
+                <a
+                  href="/"
+                  className="text-blue-900 hover:text-blue-600 text-lg font-medium relative after:absolute after:bg-blue-600 after:h-0.5 after:w-0 after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"
+                >
+                  Logout
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
