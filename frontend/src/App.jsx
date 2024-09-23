@@ -19,6 +19,7 @@ import Doctors from "./pages/AdminDashboard/Doctors";
 import Stats from "./pages/AdminDashboard/Stats";
 // import Appointments from "./pages/AdminDashboard/Appointments";
 import Messages from "./pages/AdminDashboard/Messages";
+import LoginComponent from "./pages/LoginComponent";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
       <Route path="/doctorLogin" element={<DoctorLogin />} />
       <Route path="/userprofile" element={<UserProfile />} />
       <Route path="/contact" element={<ContactUs />} />
+      <Route path="/loginComponent" element={<LoginComponent />} />
     </Routes>
   );
 }
