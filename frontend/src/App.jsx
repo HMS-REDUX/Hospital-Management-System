@@ -17,7 +17,7 @@ import HomePage from "./pages/AdminDashboard/HomePage";
 import PatientRecords from "./pages/AdminDashboard/PatientRecords";
 import Doctors from "./pages/AdminDashboard/Doctors";
 import Stats from "./pages/AdminDashboard/Stats";
-// import Appointments from "./pages/AdminDashboard/Appointments";
+import Appointments from "./pages/AdminDashboard/Appointments";
 import Messages from "./pages/AdminDashboard/Messages";
 import LoginComponent from "./pages/LoginComponent";
 
@@ -38,7 +38,7 @@ function App() {
         <Route index element={<Stats />} />
         <Route path="patient-records" element={<PatientRecords />} />
         <Route path="doctors" element={<Doctors />} />
-        {/* <Route path="appointments" element={<Appointments />} /> */}
+        <Route path="appointments" element={<Appointments />} />
         <Route path="messages" element={<Messages />} />
       </Route>
 

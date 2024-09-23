@@ -9,7 +9,7 @@ const appointmentsRoutes = require("./routes/appointmentsRoutes");
 
 const userRoutesAdmin = require("./routes/userRoutesAdmin"); // Add this line
 const doctorRoutesAdmin = require("./routes/doctorRoutesAdmin"); // Import the new route
-// const appointmentRoutesAdmin = require("./routes/appointmentRoutesAdmin"); // Import appointment routes
+const appointmentRoutesAdmin = require("./routes/appointmentRoutesAdmin"); // Import appointment routes
 const contactRoutesAdmin = require("./routes/contactRoutesAdmin"); // Add this line
 
 const userProfileRoutes = require("./routes/userProfileRoutes");
@@ -56,8 +56,9 @@ app.use("/api/contacts", contactRoutes);
 app.use("/api/billing", paymentRoutes);
 app.use("/api", userRoutesAdmin); // Add the user routes here
 app.use("/api", doctorRoutesAdmin); // Use the new route here
-// app.use("/api", appointmentRoutesAdmin); // Use the appointment routes
+app.use("/api", appointmentRoutesAdmin); // Use the appointment routes
 app.use("/api", contactRoutesAdmin); // Add the contact routes here
+
 
 app.use("/api/patient-records", PatientRecordRoutes);
 

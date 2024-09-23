@@ -14,7 +14,7 @@ const Doctors = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/doctors/admin');
+        const response = await axios.get('http://localhost:5000/api/doctor/admin');
         setDoctors(response.data);
       } catch (error) {
         console.error('Error fetching doctors:', error);
@@ -26,7 +26,7 @@ const Doctors = () => {
 
   const toggleActiveStatus = async (doctorId, isActive) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/doctors/admin/${doctorId}/status`, {
+      const response = await axios.put(`http://localhost:5000/api/doctor/admin/${doctorId}/status`, {
         isActive: !isActive,
       });
 

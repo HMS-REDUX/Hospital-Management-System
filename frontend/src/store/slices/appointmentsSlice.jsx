@@ -5,7 +5,7 @@ export const fetchAppointments = createAsyncThunk(
   "appointments/fetchAppointments",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/appointments/admin"
+      "http://localhost:5000/api/appointment/admin"
     );
     return response.data;
   }
