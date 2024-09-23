@@ -11,6 +11,7 @@ exports.getUserProfile = async (req, res) => {
       WHERE user_id = $1
     `;
     const result = await pool.query(query, [userId]);
+    console.log(result.rows);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -28,12 +29,13 @@ exports.getUserProfile = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   try {
     const userId = req.user;
+    console.log(userId);
     const { name, email, currentPassword, newPassword } = req.body;
 
     // First, verify the current password
     const userQuery = "SELECT * FROM users WHERE user_id = $1";
     const userResult = await pool.query(userQuery, [userId]);
-    console.log(userResult.rows[0]);
+    console.log("Hello");
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
