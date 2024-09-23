@@ -17,7 +17,11 @@ const contactRoutes = require("./routes/contactRoutes");
 
 const appointmentpatientRoutes = require("./routes/appointmentpatientRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+
+const paymentRoutes = require("./routes/paymentRoutes");
+
 const PatientRecordRoutes = require("./routes/PatientRecordRoutes");
+
 
 require("dotenv").config();
 const doctorcatalogRoutes = require("./routes/doctorscatalogRoutes");
@@ -49,7 +53,7 @@ app.use("/api/feedback", feedbackRoutes);
 
 app.use("/api/user", userProfileRoutes);
 app.use("/api/contacts", contactRoutes);
-
+app.use("/api/billing", paymentRoutes);
 app.use("/api", userRoutesAdmin); // Add the user routes here
 app.use("/api", doctorRoutesAdmin); // Use the new route here
 // app.use("/api", appointmentRoutesAdmin); // Use the appointment routes

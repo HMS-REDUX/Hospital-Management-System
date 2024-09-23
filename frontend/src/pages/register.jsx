@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../store/slices/authSlice";
+
+
+import { FaUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa";
 import { useNavigate, Link } from "react-router-dom";
 import { User, Mail, Lock, Phone, UserPlus } from "lucide-react";
 import Swal from "sweetalert2";
+
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -28,12 +32,14 @@ const Register = () => {
 
     try {
       await dispatch(register({ username, email, password, phonenumber }));
+
       Swal.fire({
         icon: "success",
         title: "Welcome!",
         text: "You have successfully registered.",
       });
       navigate("/");
+
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -44,6 +50,7 @@ const Register = () => {
   };
 
   return (
+
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-2xl">
         <h2 className="text-3xl font-extrabold text-center text-gray-900">
@@ -53,6 +60,7 @@ const Register = () => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="username" className="sr-only">
+
                 Username
               </label>
               <div className="relative">
@@ -94,6 +102,7 @@ const Register = () => {
             </div>
             <div>
               <label htmlFor="phonenumber" className="sr-only">
+
                 Phone Number
               </label>
               <div className="relative">
@@ -114,6 +123,7 @@ const Register = () => {
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
+
                 Password
               </label>
               <div className="relative">
@@ -130,6 +140,7 @@ const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+
                 />
               </div>
             </div>
@@ -157,6 +168,7 @@ const Register = () => {
           >
             Already have an account? Login here
           </Link>
+
         </div>
       </div>
     </div>
