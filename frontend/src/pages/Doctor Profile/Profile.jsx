@@ -93,8 +93,8 @@ const DoctorProfile = () => {
           />
           <InfoItem
             icon={<Calendar />}
-            label="Availability"
-            value={profile.availability}
+            label="description"
+            value={profile.description}
           />
         </div>
 
