@@ -18,7 +18,7 @@ const DoctorProfilePage = () => {
 
       <div className="bg-white p-4 rounded-lg shadow">
         {activeTab === "patients" && <PatientRecords />}
-        {activeTab === "appointments" && <Appointments />}
+      
         {activeTab === "profile" && <Profile />}
         {activeTab === "setAppointment" && <DoctorAppointmentSetter />}
       </div>
