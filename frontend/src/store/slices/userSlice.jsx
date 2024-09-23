@@ -13,14 +13,20 @@ export const getUserProfile = createAsyncThunk(
       });
       return res.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "An error occurred");
+      // return rejectWithValue(
+      //   error.response?.data?.error || "An error occurred"
+      // );
+      console.log(error);
     }
   }
 );
 
 export const updateUserProfile = createAsyncThunk(
   "auth/updateUserProfile",
-  async ({ name, email, currentPassword, newPassword }, { rejectWithValue }) => {
+  async (
+    { name, email, currentPassword, newPassword },
+    { rejectWithValue }
+  ) => {
     try {
       const res = await axios.put(
         "http://localhost:5000/api/user/profile",
@@ -29,13 +35,15 @@ export const updateUserProfile = createAsyncThunk(
       );
       return res.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "An error occurred");
+      return rejectWithValue(
+        error.response?.data?.error || "An error occurred"
+      );
     }
   }
 );
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "profile",
   initialState: {
     user: null,
     isAuthenticated: false,

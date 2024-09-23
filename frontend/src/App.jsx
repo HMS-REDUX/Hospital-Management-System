@@ -6,7 +6,7 @@ import Home from "./pages/home";
 import DoctorProfilePage from "./pages/Doctor Profile/DoctorProfilePage";
 import DoctorAppointmentSetter from "./pages/Doctor Profile/DoctorAppointmentSetter";
 import DoctorLogin from "./pages/DoctorLogin";
-import UserProfile from "./pages/User Profile/userProfile";
+import UserProfile from "./pages/User Profile/UserProfile";
 import ContactUs from "./pages/ContactUs";
 ///////////////////////Admin///////////////////////////////////
 import HomePage from "./pages/AdminDashboard/HomePage";
@@ -15,6 +15,7 @@ import Doctors from "./pages/AdminDashboard/Doctors";
 import Stats from './pages/AdminDashboard/Stats';
 // import Appointments from "./pages/AdminDashboard/Appointments";
 import Messages from "./pages/AdminDashboard/Messages";
+import AboutUs from "./pages/AboutUs";
 ///////////////////////////////////////////////////////////////
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
       <Route path="/doctorLogin" element={<DoctorLogin />} />
       <Route path="/userprofile" element={<UserProfile/>} />
       <Route path="/contact" element={<ContactUs />} />
+      <Route path="/aboutus" element={<AboutUs/>} />
     </Routes>
   );
 }
