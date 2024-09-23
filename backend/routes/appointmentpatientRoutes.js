@@ -7,6 +7,7 @@ router.get(
   appointmentController.getAvailableAppointments
 );
 router.post("/book", auth, appointmentController.bookAppointment);
+
 router.post(
   "/create-available",
   appointmentController.createAvailableAppointments

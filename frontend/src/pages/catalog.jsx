@@ -15,7 +15,9 @@ const Catalog = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/catalog/doctors");
+        const response = await axios.get(
+          "http://localhost:5000/api/catalog/doctors"
+        );
         setDoctors(response.data);
       } catch (error) {
         console.error("Error fetching doctors:", error);
@@ -47,11 +49,13 @@ const Catalog = () => {
                 <h2 className="font-bold text-2xl mb-4 text-blue-900">
                   {doctor.name}
                 </h2>
+                <img
+                  src={doctor.img}
+                  alt={doctor.name}
+                  className="w-32 h-32 rounded-full mx-auto mb-4"
+                />
                 <div className="space-y-3">
-                  <p className="flex items-center text-blue-500">
-                    <Mail className="w-5 h-5 mr-2" />
-                    {doctor.email}
-                  </p>
+                 
                   <p className="flex items-center text-blue-500">
                     <DollarSign className="w-5 h-5 mr-2" />${doctor.price}
                   </p>
