@@ -8,7 +8,8 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { jsPDF } from "jspdf";
-
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 const DoctorAppointment = () => {
   const [doctor, setDoctor] = useState(null);
   const [availableAppointments, setAvailableAppointments] = useState([]);
@@ -261,7 +262,8 @@ const DoctorAppointment = () => {
   if (!doctor) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 p-8">
+    <div className="min-h-screen bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 p-8 mt-20 ">
+      <Navbar />
       <div className="max-w-6xl mx-auto bg-blue-50 rounded-lg shadow-lg p-8">
         <h1 className="text-4xl font-bold mb-6 text-blue-900 text-center">
           {doctor.name}
@@ -361,7 +363,7 @@ const DoctorAppointment = () => {
               Submit Feedback
             </button>
 
-            <div className="mt-10">
+            <div className="mt-10 ">
               <h3 className="text-xl font-semibold mb-4 text-blue-800 border-b pb-2">
                 Previous Feedback
               </h3>
