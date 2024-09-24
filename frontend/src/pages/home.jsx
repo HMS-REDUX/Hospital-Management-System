@@ -256,21 +256,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-around">
-            <StatCard
-              icon={<FaUserMd />}
-              number="150K+"
-              text="Patient Recover"
-            />
-            <StatCard icon={<FaHospital />} number="870+" text="Doctors" />
-            <StatCard icon={<FaAmbulance />} number="400+" text="Hospitals" />
-          </div>
-        </div>
-      </section>
-
       {/* About Us Section */}
       <section className="py-16 bg-gradient-to-r from-white via-blue-50 to-blue-100">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
@@ -333,11 +318,6 @@ const Home = () => {
                 >
                   <div className="bg-white rounded-lg p-6 shadow-lg h-full flex flex-col">
                     <div className="flex items-center mb-4">
-                      <img
-                        src={`/avatar-${index + 1}.jpg`}
-                        alt={review.name}
-                        className="w-16 h-16 rounded-full mr-4"
-                      />
                       <div>
                         <h4 className="text-lg font-semibold">{review.name}</h4>
                         <p className="text-gray-600 text-sm">
@@ -497,7 +477,7 @@ const Home = () => {
       <footer className="bg-[#307BC4] text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center justify-center text-center">
-            <h3 className="text-lg font-semibold">Company Name</h3>
+            <h3 className="text-lg font-semibold">TheraWell</h3>
             <p>© 2024 All rights reserved.</p>
             <div className="flex space-x-6 mt-4">
               <a href="#" className="hover:text-gray-300 transition">

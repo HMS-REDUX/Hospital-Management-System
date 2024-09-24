@@ -17,7 +17,7 @@ const DoctorProfilePage = () => {
       <TabSelector activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="bg-white p-4 rounded-lg shadow">
-        {activeTab === "patients" && <PatientRecords />}
+        {/* {activeTab === "patients" && <PatientRecords />} */}
       
         {activeTab === "profile" && <Profile />}
         {activeTab === "setAppointment" && <DoctorAppointmentSetter />}

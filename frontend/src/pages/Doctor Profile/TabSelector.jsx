@@ -13,7 +13,7 @@ const TabSelector = ({ activeTab, setActiveTab }) => {
       >
         Profile
       </button>{" "}
-      <button
+      {/* <button
         className={`px-4 py-2 rounded-t-lg ${
           activeTab === "patients"
             ? "bg-white text-blue-600"
@@ -22,7 +22,7 @@ const TabSelector = ({ activeTab, setActiveTab }) => {
         onClick={() => setActiveTab("patients")}
       >
         Patient Records
-      </button>
+      </button> */}
       <button
         className={`px-4 py-2 rounded-t-lg ${
           activeTab === "setAppointment"
