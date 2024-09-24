@@ -6,6 +6,7 @@ import doctorSlice from "./slices/doctorSlice";
 import appointmentsReducer from "./slices/appointmentsSlice"; // Adjust the path as needed
 import profileReducer from "./slices/userSlice";
 import patientRecordsSlice from "./slices/patientRecordsSlice";
+import historyRecordsSlice from "./slices/historyRecordsSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     appointments: appointmentsReducer,
     profile: profileReducer,
     patientRecords: patientRecordsSlice,
+    history: historyRecordsSlice,
   },
 });
 

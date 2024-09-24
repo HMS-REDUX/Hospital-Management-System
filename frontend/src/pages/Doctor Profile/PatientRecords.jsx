@@ -17,56 +17,47 @@ const PatientRecords = () => {
     }
   }, [status, dispatch]);
 
-  // Debugging: Log the state
-  console.log("Status:", status);
-  console.log("Patient Records:", patientRecords);
-  console.log("Error:", error);
-
-  if (status === "loading") {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  if (status === "failed") {
-    return <div className="text-center text-red-500">Error: {error}</div>;
-  }
-
-  // Check if patientRecords is an array and has items
   const hasRecords = Array.isArray(patientRecords) && patientRecords.length > 0;
 
-  console.log("Has Records:", hasRecords); // Log if records are found
-
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Patient Records</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <h2 className="text-xl font-semibold mb-2">Patients</h2>
+    <div className="container mx-auto p-6 bg-gradient-to-b from-blue-100 to-green-100 min-h-screen">
+      <h1 className="text-3xl font-bold mb-8 text-blue-800 border-b pb-4">
+        Patient Records
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
+        {/* Patients List */}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-semibold mb-4 text-green-700">
+            Patients
+          </h2>
           {hasRecords ? (
-            <ul className="space-y-2">
+            <ul className="space-y-3 max-h-96 overflow-y-auto">
               {patientRecords.map((record) => (
                 <li
                   key={record.record_id}
-                  className="cursor-pointer p-2 hover:bg-gray-100 rounded"
+                  className="cursor-pointer p-3 rounded-md transition-colors bg-yellow-100 hover:bg-yellow-200"
                   onClick={() => setSelectedPatient(record)}
                 >
-                  {record.patient_name}
+                  <h3 className="font-medium">
+                    Patient Name: {record.patient_name}
+                  </h3>
+                  <h3 className="font-medium">
+                    Appointment Date: {record.appointment_date}
+                  </h3>
+                  <h3 className="font-medium">
+                    Appointment Time: {record.appointment_time}
+                  </h3>
+                  <h3 className="font-medium">Notes: {record.notes}</h3>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No patient records found.</p>
+            <p className="text-gray-500 italic">No patient records found.</p>
           )}
         </div>
-        <div>
-          {selectedPatient && (
-            <>
-              <PatientHistory patient={selectedPatient} />
-              <TreatmentForm
-                patientId={selectedPatient.patient_id}
-                doctorId={selectedPatient.doctor_id}
-              />
-            </>
-          )}
+
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <PatientHistory />
         </div>
       </div>
     </div>

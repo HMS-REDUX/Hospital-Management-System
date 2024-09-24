@@ -10,16 +10,19 @@ const TreatmentForm = ({ patientId, doctorId, existingTreatment = null }) => {
   const [formData, setFormData] = useState({
     treatmentName: existingTreatment?.treatment_name || "",
     diagnosis: existingTreatment?.diagnosis || "",
-    age: existingTreatment?.age || "",
-    treatmentSection: existingTreatment?.treatment_section || "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const treatmentData = {
       patientId,
       doctorId,
@@ -27,24 +30,27 @@ const TreatmentForm = ({ patientId, doctorId, existingTreatment = null }) => {
       ...formData,
     };
 
-    if (existingTreatment) {
-      dispatch(
-        updateTreatment({
-          recordId: existingTreatment.record_id,
-          treatmentData,
-        })
-      );
-    } else {
-      dispatch(addTreatment(treatmentData));
+    try {
+      if (existingTreatment) {
+        await dispatch(
+          updateTreatment({
+            recordId: existingTreatment.record_id,
+            treatmentData,
+          })
+        );
+      } else {
+        await dispatch(addTreatment(treatmentData));
+      }
+      // Reset form after submission
+      setFormData({
+        treatmentName: "",
+        diagnosis: "",
+      });
+    } catch (err) {
+      setError("Failed to submit the treatment");
+    } finally {
+      setLoading(false);
     }
-
-    // Reset form after submission
-    setFormData({
-      treatmentName: "",
-      diagnosis: "",
-      age: "",
-      treatmentSection: "",
-    });
   };
 
   return (
@@ -83,45 +89,19 @@ const TreatmentForm = ({ patientId, doctorId, existingTreatment = null }) => {
           required
         ></textarea>
       </div>
-      <div>
-        <label
-          htmlFor="age"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Age
-        </label>
-        <input
-          type="number"
-          name="age"
-          id="age"
-          value={formData.age}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          required
-        />
-      </div>
-      <div>
-        <label
-          htmlFor="treatmentSection"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Treatment Section
-        </label>
-        <input
-          type="number"
-          name="treatmentSection"
-          id="treatmentSection"
-          value={formData.treatmentSection}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          required
-        />
-      </div>
+
+      {error && <p className="text-red-500">{error}</p>}
+
       <button
         type="submit"
         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        disabled={loading}
       >
-        {existingTreatment ? "Update Treatment" : "Add Treatment"}
+        {loading
+          ? "Processing..."
+          : existingTreatment
+          ? "Update Treatment"
+          : "Add Treatment"}
       </button>
     </form>
   );
