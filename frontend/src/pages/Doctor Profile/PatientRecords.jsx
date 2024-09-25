@@ -28,7 +28,7 @@ const PatientRecords = () => {
         {/* Patients List */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-semibold mb-4 text-green-700">
-            Patients
+            Patients Appointments
           </h2>
           {hasRecords ? (
             <ul className="space-y-3 max-h-96 overflow-y-auto">
