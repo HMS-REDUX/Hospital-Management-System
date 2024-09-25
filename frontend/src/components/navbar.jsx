@@ -59,14 +59,6 @@ const Navbar = () => {
               Contact
             </a>
           </li>
-          <li>
-            <a
-              href="/userprofile"
-              className="text-blue-900 hover:text-blue-600 text-lg font-medium relative"
-            >
-              Profile
-            </a>
-          </li>
         </ul>
       </div>
       {/* Mobile Menu */}
@@ -107,15 +99,6 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
-              </a>
-            </li>
-            <li>
-              <a
-                href="/userprofile"
-                className="text-blue-900 hover:text-blue-600 text-lg font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Profile
               </a>
             </li>
           </ul>
