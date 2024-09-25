@@ -60,7 +60,7 @@ const Catalog = () => {
                   />
                   <div className="space-y-3">
                     <p className="flex items-center text-blue-500">
-                      <DollarSign className="w-5 h-5 mr-2" />${doctor.price}
+                      JOD : {doctor.price}
                     </p>
                     <p className="flex items-center text-blue-500">
                       <Briefcase className="w-5 h-5 mr-2" />

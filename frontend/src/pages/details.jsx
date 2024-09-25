@@ -277,7 +277,7 @@ const DoctorAppointment = () => {
           {doctor.description}
         </p>
         <p className="flex items-center text-3xl text-blue-500">
-          price : ${doctor.price}
+          price : JOD :{doctor.price}
         </p>
         <div className="flex items-center  justify-end mb-2">
           {/* قم بإنشاء مصفوفة من 1 إلى 5 لتمثيل النجوم */}
