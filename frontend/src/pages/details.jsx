@@ -228,21 +228,21 @@ const DoctorAppointment = () => {
       if (!token) {
         alert("User ID is missing in cookies. Please log in.");
         return;
+      } else {
+        const decodedToken = jwtDecode(token);
+        const patientId = decodedToken.userId;
+
+        await axios.post("http://localhost:5000/api/feedback", {
+          doctor_id: doctor.doctor_id,
+          patient_id: patientId,
+          rating,
+          comment,
+        });
+        alert("Feedback submitted successfully!");
+        setRating(0);
+        setComment("");
+        fetchFeedback(doctor.doctor_id);
       }
-
-      const decodedToken = jwtDecode(token);
-      const patientId = decodedToken.userId;
-
-      await axios.post("http://localhost:5000/api/feedback", {
-        doctor_id: doctor.doctor_id,
-        patient_id: patientId,
-        rating,
-        comment,
-      });
-      alert("Feedback submitted successfully!");
-      setRating(0);
-      setComment("");
-      fetchFeedback(doctor.doctor_id);
     } catch (error) {
       console.error("Error submitting feedback:", error);
       alert("Failed to submit feedback. Please try again.");
