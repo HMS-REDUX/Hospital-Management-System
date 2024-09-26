@@ -1,8 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile, updateUserProfile } from "../../store/slices/userSlice";
-import { User, Mail, Lock, Edit2, Save, X, AlertCircle, CheckCircle } from "lucide-react";
+import {
+  getUserProfile,
+  updateUserProfile,
+} from "../../store/slices/userSlice";
+import {
+  User,
+  Mail,
+  Lock,
+  Edit2,
+  Save,
+  X,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 import Navbar from "../../components/navbar";
+import AppointmentUser from "./AppointmentUser";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,7 +25,9 @@ const UserProfile = () => {
     currentPassword: "",
     newPassword: "",
   });
-  const { user, loading, error, successMessage } = useSelector((state) => state.profile);
+  const { user, loading, error, successMessage } = useSelector(
+    (state) => state.profile
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,7 +36,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (user) {
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
         name: user.name,
         email: user.email,
@@ -31,7 +46,7 @@ const UserProfile = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -42,7 +57,7 @@ const UserProfile = () => {
     await dispatch(updateUserProfile(formData));
     if (!error) {
       setIsEditing(false);
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
         currentPassword: "",
         newPassword: "",
@@ -52,7 +67,7 @@ const UserProfile = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       name: user.name,
       email: user.email,
@@ -70,11 +85,15 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8" style={{
-      backgroundImage: "url('https://img.freepik.com/free-photo/stethoscope-clipboard_23-2147652325.jpg?w=996&t=st=1727079292~exp=1727079892~hmac=758d7d04dcb527877dda725ae21d1c992aea961dd82f16d166642ad3bbfadd5e')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
+    <div
+      className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage:
+          "url('https://img.freepik.com/free-photo/stethoscope-clipboard_23-2147652325.jpg?w=996&t=st=1727079292~exp=1727079892~hmac=758d7d04dcb527877dda725ae21d1c992aea961dd82f16d166642ad3bbfadd5e')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Navbar />
       <div className="max-w-md mx-auto bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-20">
         <div className="md:flex">
@@ -104,7 +123,10 @@ const UserProfile = () => {
             )}
             <form onSubmit={handleSubmit} className="mt-8">
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+                >
                   <User size={16} className="mr-2" />
                   Name
                 </label>
@@ -119,7 +141,10 @@ const UserProfile = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+                >
                   <Mail size={16} className="mr-2" />
                   Email
                 </label>
@@ -136,7 +161,10 @@ const UserProfile = () => {
               {isEditing && (
                 <>
                   <div className="mb-4">
-                    <label htmlFor="currentPassword" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                    <label
+                      htmlFor="currentPassword"
+                      className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+                    >
                       <Lock size={16} className="mr-2" />
                       Current Password
                     </label>
@@ -150,7 +178,10 @@ const UserProfile = () => {
                     />
                   </div>
                   <div className="mb-6">
-                    <label htmlFor="newPassword" className="block text-gray-700 text-sm font-bold mb-2 flex items-center">
+                    <label
+                      htmlFor="newPassword"
+                      className="block text-gray-700 text-sm font-bold mb-2 flex items-center"
+                    >
                       <Lock size={16} className="mr-2" />
                       New Password
                     </label>
@@ -200,6 +231,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
+      <AppointmentUser />
     </div>
   );
 };

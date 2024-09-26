@@ -76,3 +76,26 @@ exports.updateUserProfile = async (req, res) => {
       .json({ error: "An error occurred while updating user profile" });
   }
 };
+
+exports.getAppointmentsByUserId = async (req, res) => {
+  try {
+    // Extract the user ID from the request object
+    const userId = req.user; // or req.params.userId, depending on where userId is stored
+
+    // SQL query to fetch appointments
+    const query = `
+      SELECT * FROM Appointments
+      WHERE patient_id = $1
+      ORDER BY appointment_date, appointment_time
+    `;
+
+    // Execute the query
+    const result = await pool.query(query, [userId]);
+
+    // Return the result rows
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching appointments:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
