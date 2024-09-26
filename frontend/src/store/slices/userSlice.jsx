@@ -10,14 +10,19 @@ export const getUserProfile = createAsyncThunk(
       });
       return res.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "An error occurred");
+      return rejectWithValue(
+        error.response?.data?.error || "An error occurred"
+      );
     }
   }
 );
 
 export const updateUserProfile = createAsyncThunk(
   "user/updateUserProfile",
-  async ({ name, email, currentPassword, newPassword }, { rejectWithValue }) => {
+  async (
+    { name, email, currentPassword, newPassword },
+    { rejectWithValue }
+  ) => {
     try {
       const res = await axios.put(
         "http://localhost:5000/api/user/profile",
@@ -26,8 +31,23 @@ export const updateUserProfile = createAsyncThunk(
       );
       return res.data.user;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || "An error occurred");
+      return rejectWithValue(
+        error.response?.data?.error || "An error occurred"
+      );
     }
+  }
+);
+
+export const fetchAppointments = createAsyncThunk(
+  "appointments/fetchAppointments",
+  async () => {
+    const response = await axios.get(
+      `http://localhost:5000/api/user/appointment`,
+      { withCredentials: true }
+    );
+    console.log("fetchAppointments", response);
+
+    return response.data;
   }
 );
 
@@ -37,6 +57,7 @@ const userSlice = createSlice({
     user: null,
     isAuthenticated: false,
     loading: false,
+    appointments: [], // Initialized appointments array
     error: null,
     successMessage: null,
   },
@@ -74,6 +95,17 @@ const userSlice = createSlice({
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
+      })
+      .addCase(fetchAppointments.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAppointments.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.appointments = action.payload;
+      })
+      .addCase(fetchAppointments.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
